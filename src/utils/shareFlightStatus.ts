@@ -1,8 +1,8 @@
-const FLIGHT_SHARE_URL = 'https://www.flightaware.com/live/flight/KAL1234'
+const FLIGHT_SHARE_URL = 'https://www.flightaware.com/live/flight/KAL23'
 
 const sharePayload = {
-  title: 'KE1234 실시간 항공편 현황',
-  text: 'KE1234 항공편의 실시간 운항 현황을 확인하세요.',
+  title: 'KE23 실시간 항공편 현황',
+  text: 'KE23 항공편의 실시간 운항 현황을 확인하세요.',
   url: FLIGHT_SHARE_URL,
 } as const
 
