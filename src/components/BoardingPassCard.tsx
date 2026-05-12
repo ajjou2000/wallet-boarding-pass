@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Plane } from 'lucide-react'
+import ShareBottomSheet from './ShareBottomSheet'
 import Toast from './Toast'
-import { shareFlightStatus } from '../utils/shareFlightStatus'
+import {
+  shareFlightMessage,
+  shareOptions,
+  type ShareOptionId,
+} from '../utils/shareFlightStatus'
 
 const flightDetails = [
   { label: '편명', value: 'SE701' },
@@ -43,6 +48,7 @@ function QrCodePlaceholder() {
 }
 
 export default function BoardingPassCard() {
+  const [isShareSheetOpen, setIsShareSheetOpen] = useState(false)
   const [toastMessage, setToastMessage] = useState<string | null>(null)
 
   useEffect(() => {
@@ -59,12 +65,14 @@ export default function BoardingPassCard() {
     }
   }, [toastMessage])
 
-  const handleShare = async () => {
+  const handleShareOptionSelect = async (optionId: ShareOptionId) => {
+    setIsShareSheetOpen(false)
+
     try {
-      const result = await shareFlightStatus()
+      const result = await shareFlightMessage(optionId)
 
       if (result === 'copied') {
-        setToastMessage('링크가 복사되었습니다.')
+        setToastMessage('항공편 공유 링크가 복사되었습니다.')
       }
     } catch (error) {
       if (error instanceof DOMException && error.name === 'AbortError') {
@@ -144,7 +152,7 @@ export default function BoardingPassCard() {
         <button
           type="button"
           onClick={() => {
-            void handleShare()
+            setIsShareSheetOpen(true)
           }}
           className="flex-1 rounded-full bg-white/18 px-3 py-3 text-[0.95rem] font-semibold text-white transition-colors hover:bg-white/24"
         >
@@ -158,6 +166,17 @@ export default function BoardingPassCard() {
       </article>
 
       {toastMessage ? <Toast message={toastMessage} /> : null}
+
+      <ShareBottomSheet
+        open={isShareSheetOpen}
+        options={shareOptions}
+        onClose={() => {
+          setIsShareSheetOpen(false)
+        }}
+        onSelect={(optionId) => {
+          void handleShareOptionSelect(optionId)
+        }}
+      />
     </>
   )
 }
