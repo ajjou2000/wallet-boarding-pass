@@ -10,7 +10,8 @@ export type ShareOption = {
 
 const DETAILED_FLIGHT_AWARE_URL =
   'https://www.flightaware.com/live/flight/KAL23'
-const SUMMARY_PAGE_URL = 'https://your-demo-domain.com/flight/KE023'
+const SUMMARY_PAGE_URL =
+  'https://wallet-boardingpass-shared.vercel.app/flight/KE023'
 
 export const shareOptions: ShareOption[] = [
   {
